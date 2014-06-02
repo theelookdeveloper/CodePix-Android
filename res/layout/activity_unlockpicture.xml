@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="1100dp" xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/startscreen_bg"
+        android:orientation="vertical"
+        tools:context=".DeviceFragment" android:id="@+id/rootView">
+
+        <LinearLayout
+            android:id="@+id/imageViewUnlock"
+            android:layout_width="335dp"
+            android:layout_height="404dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/linearLayout"
+            android:orientation="horizontal"
+            android:gravity="center"
+            />
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/nav_bg"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btnBack"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_margin="6dp"
+                android:layout_weight="0.19"
+                android:background="#FF0000"
+                android:text=" Back "
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+
+             <TextView
+                android:id="@+id/textViewCaption"
+                android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+              android:gravity="center"
+                android:fontFamily="@style/AppBaseTheme"
+                      android:layout_weight="2" android:text=" test "
+            android:textColor="@android:color/white"
+            android:textSize="20sp"/>
+
+            <Button
+                android:id="@+id/btnUnlock"
+                android:layout_width="70dp"
+                android:layout_height="30dp"
+                android:layout_margin="6dp"
+                android:layout_weight="0.30"
+                android:background="#CCCCCC"
+                android:enabled="false"
+                android:text="Unlock"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</ScrollView>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<RelativeLayout 
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" 
+    android:background="@drawable/codepix_loginscreen_bg" >
+
+  
+
+    <ImageView
+        android:id="@+id/imageLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/codepix_logo"
+        android:src="@drawable/codepix_loginscreen_logo" />
+
+    <Button
+        android:id="@+id/buttonRegisterWith"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/imageLogo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/codepix_loginscreen_registerwith" />
+
+    <ImageView
+        android:id="@+id/imageArrow"
+         android:layout_width="20dp"
+    android:layout_height="20dp"
+    
+        android:layout_alignLeft="@+id/buttonRegisterWith"
+        android:layout_below="@+id/buttonRegisterWith"
+        android:layout_toLeftOf="@+id/imageLogo"
+         android:contentDescription="@string/codepix_logo"
+        android:src="@drawable/codepix_loginscreen_arrow" />
+
+    <ImageView
+        android:id="@+id/imageTwitter"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/buttonRegisterWith"
+        android:layout_alignTop="@+id/imageFacebook"
+         android:contentDescription="@string/codepix_logo"
+        android:src="@drawable/codepix_loginscreen_twitter_button" />
+
+    <ImageView
+        android:id="@+id/imageFacebook"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageArrow"
+        android:layout_centerHorizontal="true"
+         android:contentDescription="@string/codepix_logo"
+        android:src="@drawable/codepix_loginscreen_facebook_button" />
+
+    <ImageView
+        android:id="@+id/imageCodepix"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/buttonRegisterWith"
+        android:layout_alignTop="@+id/imageFacebook"
+         android:contentDescription="@string/codepix_logo"
+        android:src="@drawable/codepix_loginscreen_codepix_button" />
+
+</RelativeLayout>
+</ScrollView>

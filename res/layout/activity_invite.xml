@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/startscreen_bg"
+    android:orientation="vertical"
+    tools:context=".DeviceFragment" >
+  <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+       
+        android:background="@drawable/nav_bg"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:contentDescription="@string/codepix_logo"
+            android:src="@drawable/nav_logo" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:fontFamily="@style/AppBaseTheme"
+            android:gravity="center"
+            android:text="@string/invite_friends"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+        
+        <Button
+        android:id="@+id/btnBack"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:text="@string/back"
+        android:layout_margin="7dp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:background="#FF0000"
+         >
+       
+    </Button>
+    </LinearLayout>
+    <ListView
+        android:id="@+id/listInvite"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linearLayout"
+        android:divider="#b5b5b5"
+        android:dividerHeight="1dp"
+        android:listSelector="@drawable/list_selectornews" />
+
+    
+</RelativeLayout>

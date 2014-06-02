@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="1100dp" xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/startscreen_bg"
+        android:orientation="vertical"
+        tools:context=".DeviceFragment" android:id="@+id/rootView">
+
+        <LinearLayout
+            android:id="@+id/imageViewEffect"
+            android:layout_width="335dp"
+            android:layout_height="404dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/linearLayout"
+             android:orientation="horizontal"
+            android:gravity="center"
+             />
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/nav_bg"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btnBack"
+                android:layout_width="50dp"
+                android:layout_height="20dp"
+                android:layout_margin="6dp"
+                android:background="#FF0000"
+                android:text="Back"
+                android:layout_weight="1"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnGesture"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_margin="6dp"
+                android:background="#FF0000"
+                android:text="ADD GESTURE"
+                android:layout_weight="1"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_margin="6dp"
+                android:background="#FF0000"
+                android:text="CANCEL"
+                android:layout_weight="1"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnNext"
+                android:layout_width="70dp"
+                android:layout_height="30dp"
+                android:layout_margin="6dp"
+                android:background="#FF0000"
+                android:text="Next"
+                android:layout_weight="1"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</ScrollView>

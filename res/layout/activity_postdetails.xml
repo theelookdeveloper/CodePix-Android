@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+<RelativeLayout 
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/rootView"
+    android:background="@drawable/startscreen_bg"
+    android:orientation="vertical"
+    tools:context=".DeviceFragment" >
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/nav_bg"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:contentDescription="@string/codepix_logo"
+                android:src="@drawable/nav_logo" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:fontFamily="@style/AppBaseTheme"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/btnDelete"
+                android:layout_width="60dp"
+                android:layout_height="30dp"
+                android:layout_margin="7dp"
+                android:background="#FF0000"
+                android:text="Delete"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnNext"
+                android:layout_width="60dp"
+                android:layout_height="30dp"
+                android:layout_margin="7dp"
+                android:background="#FF0000"
+                android:text="Next"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" >
+            </Button>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="58dp"
+            android:baselineAligned="false" >
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:src="@drawable/default_profile" />
+
+            <TextView
+                android:id="@+id/textViewCaption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/textViewName"
+                android:layout_below="@+id/textViewName"
+                android:layout_marginTop="19dp"
+                android:textSize="16sp"
+                android:text="test testing"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <TextView
+                android:id="@+id/textViewName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="19dp"
+                android:layout_marginTop="15dp"
+                android:layout_toRightOf="@+id/imageView1"
+                android:text="Devendra Shewale"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/black" />
+        
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="335dp"
+            android:layout_height="404dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/imageView1"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/default123"
+             />
+        
+        
+            <Button
+            android:id="@+id/btnLike"
+            android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
+                android:background="#FF0000"
+                android:padding="12dp"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/imageView2"
+            android:text="LIKE" />
+            
+            <Button
+            android:id="@+id/buttonComment"
+            android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="30dp"
+                android:background="#FF0000"
+                android:padding="12dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/imageView2"
+           
+            android:text="COMMENT" />
+               <ListView
+                android:id="@+id/listViewComment"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/btnLike"
+                android:layout_marginTop="4dp" > 
+            </ListView>
+
+               <TextView
+                   android:id="@+id/textViewCommentCount"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_alignBaseline="@+id/buttonComment"
+                   android:layout_alignBottom="@+id/buttonComment"
+                   android:layout_toLeftOf="@+id/buttonComment"
+                   android:text=""
+                   android:textAppearance="?android:attr/textAppearanceSmall" />
+
+               <TextView
+                   android:id="@+id/textViewLikeCount"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_alignBaseline="@+id/btnLike"
+                   android:layout_alignBottom="@+id/btnLike"
+                   android:layout_toRightOf="@+id/btnLike"
+                   android:text=""
+                   android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        </RelativeLayout>
+
+       <!--  <LinearLayout
+            android:id="@+id/commentLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/relativeLayout1"
+            android:orientation="vertical">
+        </LinearLayout> -->
+
+
+</RelativeLayout>
+
+</ScrollView>

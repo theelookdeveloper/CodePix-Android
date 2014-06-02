@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+<RelativeLayout android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:context=".DeviceFragment" android:background="@drawable/startscreen_bg">
+
+    <Button
+        android:id="@+id/btnInviteFreinds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/btnProfile"
+        android:layout_below="@+id/btnProfile"
+        android:layout_marginTop="10dp"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:fontFamily="@style/AppBaseTheme"
+        android:text="@string/invite_friends" android:background="@drawable/btnbg"  />
+
+    <Button
+        android:id="@+id/btnProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="26dp"  
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:fontFamily="@style/AppBaseTheme"
+        android:background="@drawable/btnbg" android:text="@string/profile"/>
+
+    <Button
+        android:id="@+id/btnLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/btnSearchCodePixFreinds"
+        android:layout_below="@+id/btnSearchCodePixFreinds"
+        android:layout_marginTop="17dp"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:fontFamily="@style/AppBaseTheme"
+        android:text="@string/logout" android:background="@drawable/btnbg"  />
+
+    <RelativeLayout
+        android:id="@+id/Button02"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/btnLogout"
+        android:layout_alignRight="@+id/btnLogout"
+        android:layout_below="@+id/btnLogout"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/facebook_connect" >
+
+        <Button
+            android:id="@+id/btnFacebookConnect"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/connect"
+             />
+        
+        </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/Button03"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/Button02"
+        android:layout_alignRight="@+id/Button02"
+        android:layout_below="@+id/Button02"
+        android:layout_marginTop="27dp"
+        android:background="@drawable/twitter_connect" >
+        <Button
+            android:id="@+id/btnTwitterConnect"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/connect"
+             />
+        </RelativeLayout>
+
+    <Button
+        android:id="@+id/btnSearchCodePixFreinds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/btnInviteFreinds"
+        android:layout_below="@+id/btnInviteFreinds"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/btnbg"
+        android:fontFamily="@style/AppBaseTheme"
+        android:text="@string/search_codepix_friends"
+        android:textColor="@android:color/white"
+        android:textSize="20sp" />
+
+</RelativeLayout>
+</ScrollView>

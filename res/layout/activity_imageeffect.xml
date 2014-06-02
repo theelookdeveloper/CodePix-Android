@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/startscreen_bg"
+        android:orientation="vertical"
+        tools:context=".DeviceFragment" android:id="@+id/rootView">
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/nav_bg"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="50dp"
+                android:layout_height="20dp"
+                android:layout_margin="7dp"
+                android:background="#FF0000"
+                android:text="Cancel"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:fontFamily="@style/AppBaseTheme"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/btnNext"
+                android:layout_width="60dp"
+                android:layout_height="30dp"
+                android:layout_margin="7dp"
+                android:background="#FF0000"
+                android:text="Next"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" >
+            </Button>
+        </LinearLayout>
+         <FrameLayout android:id="@+id/frameLayout"
+             android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/linearLayout">
+
+        <ImageView
+            android:id="@+id/imageViewEffect"
+            android:layout_width="335dp"
+            android:layout_height="404dp"
+            android:src="@drawable/codepix_loginscreen_bg" />
+
+           </FrameLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/frameLayout"
+            android:layout_marginTop="48dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btnNone"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/segment_button_left"
+                android:singleLine="true"
+                android:text="None"
+                android:textColor="#ffffff"
+                android:textSize="13dip" />
+
+            <Button
+                android:id="@+id/btnBlur"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/segment_button_center_deactive"
+                android:singleLine="true"
+                android:text="Blur"
+                android:textColor="#0033CC"
+                android:textSize="13dip" />
+
+            <Button
+                android:id="@+id/btnPixcelate"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/segment_button_right_deactive"
+                android:singleLine="true"
+                android:text="Pixelate"
+                android:textColor="#0033CC"
+                android:textSize="13dip" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</ScrollView>

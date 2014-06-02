@@ -1,0 +1,114 @@
+
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+<RelativeLayout 
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    tools:context=".MainActivity"
+    android:id="@+id/mainLoginLayout"
+    android:background="@drawable/codepix_loginscreen_bg" >
+
+  
+
+    <ImageView
+        android:id="@+id/imageLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/codepix_logo"
+        android:src="@drawable/codepix_loginscreen_logo" />
+
+<EditText
+    android:id="@+id/editTextEmail"
+    android:layout_width="fill_parent"
+    android:layout_height="50dp"
+    android:layout_alignLeft="@+id/editTextPassword"
+    android:layout_alignRight="@+id/editTextPassword"
+    android:layout_below="@+id/imageLogo"
+    android:layout_marginTop="17dp"
+    android:ems="10"
+    android:inputType="textEmailAddress" 
+    android:drawableLeft="@drawable/codepix_loginscreen_emailadd"
+    >
+
+    <requestFocus /></EditText>
+
+<EditText
+    android:id="@+id/editTextPassword"
+    android:layout_width="fill_parent"
+    android:layout_height="50dp"
+    android:layout_alignLeft="@+id/buttonSubmit"
+    android:layout_alignRight="@+id/buttonSubmit"
+    android:layout_below="@+id/editTextEmail"
+    android:ems="10"
+    android:drawableLeft="@drawable/codepix_loginscreen_password"
+    android:inputType="textPassword" >
+
+</EditText>
+
+<Button
+    android:id="@+id/buttonLoginWith"
+    android:layout_width="300dp"
+    android:layout_height="50dp"
+    android:layout_alignLeft="@+id/buttonSubmit"
+    android:layout_below="@+id/buttonSubmit"
+    android:layout_marginTop="8dp"
+    android:background="@drawable/login_with" />
+
+<Button
+    android:id="@+id/buttonSubmit"
+    android:layout_width="300dp"
+    android:layout_height="50dp"
+    android:layout_below="@+id/editTextPassword"
+    android:layout_centerHorizontal="true"
+    android:background="@drawable/codepix_loginscreen_submit_button" />
+
+<ImageView
+    android:id="@+id/imageArrow"
+    android:layout_width="20dp"
+    android:layout_height="20dp"
+    android:layout_alignLeft="@+id/imageLogo"
+    android:layout_below="@+id/buttonLoginWith"
+     android:contentDescription="@string/codepix_logo"
+     android:src="@drawable/codepix_loginscreen_arrow" />
+
+<ImageView
+    android:id="@+id/imageFacebook"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignLeft="@+id/buttonLoginWith"
+    android:layout_below="@+id/imageArrow"
+    android:layout_marginLeft="22dp"
+     android:contentDescription="@string/codepix_logo"
+    android:src="@drawable/codepix_loginscreen_facebook_button" />
+
+<ImageView
+    android:id="@+id/imageTwitter"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/imageArrow"
+    android:layout_marginLeft="24dp"
+    android:layout_toRightOf="@+id/imageFacebook"
+     android:contentDescription="@string/codepix_logo"
+    android:src="@drawable/codepix_loginscreen_twitter_button" />
+
+<TextView
+    android:id="@+id/textForgotPassword"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignRight="@+id/imageLogo"
+    android:layout_below="@+id/imageFacebook"
+    android:layout_marginTop="16dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:text="@string/forgot_password"
+    android:textColor="@android:color/black"
+    android:textColorLink="@android:color/black" />
+   
+</RelativeLayout>
+</ScrollView>

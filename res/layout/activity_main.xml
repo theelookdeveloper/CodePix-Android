@@ -1,0 +1,38 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context=".MainActivity"
+    
+    android:background="@drawable/startscreen_bg" >
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="250dp"
+        android:layout_alignLeft="@+id/btnLogin"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/btnLogin"
+        android:layout_marginTop="57dp"
+        android:contentDescription="@string/codepix_logo"
+        android:src="@drawable/startscreen_logo" />
+
+    <Button
+        android:id="@+id/btnRegister"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_alignLeft="@+id/btnLogin"
+        android:layout_alignParentBottom="true" android:layout_marginBottom="5dp"
+          android:background="@drawable/register" />
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_above="@+id/btnRegister"
+        android:layout_centerHorizontal="true"
+         
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/login" />
+
+</RelativeLayout>

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.codepix.main"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="9"
+        android:targetSdkVersion="18" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+     <uses-permission android:name="android.permission.VIBRATE" />
+     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    
+        <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    
+     <!-- FOR Camera -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+
+    <!-- Don't require camera, as this requires a rear camera. This allows it to work on the Nexus 7 -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.front"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.flash"
+        android:required="false" />
+    <uses-feature android:name="android.hardware.screen.landscape" />
+    <uses-feature
+        android:name="android.hardware.wifi"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="false" />
+    
+    <application
+        android:allowBackup="true" android:name="com.codepix.main.UILApplication"
+        android:icon="@drawable/icon_transperent"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.codepix.main.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Black.NoTitleBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+         <activity
+            android:name="com.codepix.main.LoginActivity" 
+            android:theme="@android:style/Theme.Black.NoTitleBar">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="t4jsample"
+                    android:scheme="oauth" />
+
+            </intent-filter>
+            
+        </activity>
+          <activity
+            android:name="com.codepix.main.RegisterActivity" android:theme="@android:style/Theme.Black.NoTitleBar"  >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="twitter_register"
+                    android:scheme="codepix" />
+
+            </intent-filter>
+            
+        </activity>
+        
+          <activity android:name="com.codepix.main.CodePixRegisterAcitvity" android:theme="@android:style/Theme.Black.NoTitleBar" >
+              
+          </activity>
+          <activity android:name="com.codepix.main.Custom_CameraActivity" android:theme="@android:style/Theme.Black.NoTitleBar"></activity>
+          <activity android:name="com.codepix.main.CameraDashboardActivity" android:theme="@android:style/Theme.Black.NoTitleBar"></activity>
+          <activity android:name="com.codepix.main.DashboardActivity" android:theme="@android:style/Theme.Black.NoTitleBar">
+              
+              <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="twitter_connect"
+                    android:scheme="codepixconnect" />
+
+            </intent-filter>          
+          </activity>
+          <activity android:name="com.facebook.LoginActivity" android:theme="@android:style/Theme.Black.NoTitleBar"></activity>
+          <activity android:name="com.codepix.main.FindFriendsActivity" android:theme="@android:style/Theme.Black.NoTitleBar"></activity>
+          <activity android:name="com.codepix.main.ImageEffectsActivity" android:theme="@android:style/Theme.Black.NoTitleBar"></activity>
+           <activity android:name="com.codepix.main.ImageGestureActivity" android:theme="@android:style/Theme.Black.NoTitleBar"></activity>
+            <activity android:name="com.codepix.main.ImageDistortedUploadActivity" android:theme="@android:style/Theme.Black.NoTitleBar">
+                 <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="twitter_share"
+                    android:scheme="codepixshare" />
+
+            </intent-filter>
+                
+                
+            </activity>
+            <activity android:name="com.codepix.main.ImageUnlockGestureActivity" android:theme="@android:style/Theme.Black.NoTitleBar"></activity>
+           <activity android:name="com.codepix.main.InviteFacebook" android:theme="@android:style/Theme.Black.NoTitleBar"></activity>
+           <activity android:name="com.codepix.main.InviteTwitter" android:theme="@android:style/Theme.Black.NoTitleBar"
+                >
+                
+           </activity>
+            <activity android:name="com.codepix.main.CodePixSearchFriendActivity" android:theme="@android:style/Theme.Black.NoTitleBar"> </activity>
+            <activity android:name="com.codepix.main.TwitterActivity"></activity>
+            <activity android:name="com.codepix.main.EditProfileActivity" android:theme="@android:style/Theme.Black.NoTitleBar"></activity>
+            <activity android:name="com.codepix.main.PostDetailsActivity" android:theme="@android:style/Theme.Black.NoTitleBar"></activity>
+            
+            
+            <service android:name="com.codepix.main.CodepixService" android:exported="true" android:label="@string/app_name" 
+            android:process=":remote">
+            <intent-filter>
+                <action android:name="com.codepix.main.CodepixService" />
+                
+                               
+            </intent-filter>
+            
+        </service>
+        
+             <activity
+            android:name="com.codepix.main.TakePhotoActivity">
+           <!--  <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter> -->
+        </activity>
+     <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/app_id"/>
+    </application>
+
+</manifest>
