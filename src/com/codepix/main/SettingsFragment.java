@@ -67,6 +67,7 @@ private static Twitter twitter;
 private static RequestToken requestToken;
 private AccessToken accessToken;
 private Button btnTwitterConnect;
+private Button btnViewCodePixFreinds;
 
 
 private boolean isTwitterLoggedInAlready() {
@@ -75,40 +76,55 @@ private boolean isTwitterLoggedInAlready() {
 }
 
 private void login() {
-	 if (Session.getActiveSession() == null
-	            || Session.getActiveSession().isClosed()) {
-	        Session.openActiveSession(getActivity(), true, new StatusCallback() {
+	
+	
+	
+	 try {
+		if (Session.getActiveSession() == null
+		            || Session.getActiveSession().isClosed()) {
+		        Session.openActiveSession(getActivity(), true, new StatusCallback() {
 
-	            @SuppressWarnings("deprecation")
-				@Override
-	            public void call(Session session, SessionState state,
-	                    Exception exception) {
-	                System.out.println("State= " + state);
+		            @SuppressWarnings("deprecation")
+					@Override
+		            public void call(Session session, SessionState state,
+		                    Exception exception) {
+		                System.out.println("State= " + state);
 
-	                if (session.isOpened()) {
-	                    System.out.println("Token=" + session.getAccessToken());
-	                    
-	                    mPrefs.edit().putString("fbToken", session.getAccessToken()).commit();
-	                    Request.executeMeRequestAsync(session,
-	                            new GraphUserCallback() {
-	                                @Override
-	                                public void onCompleted(GraphUser user,
-	                                        Response response) {
-	                                    if (user != null) {
-	                                        System.out.println("User=" + user);
+		                if (session.isOpened()) {
+		                    System.out.println("Token=" + session.getAccessToken());
+		                    
+		                    mPrefs.edit().putString("fbToken", session.getAccessToken()).commit();
+		                    Request.executeMeRequestAsync(session,
+		                            new GraphUserCallback() {
+		                                @Override
+		                                public void onCompleted(GraphUser user,
+		                                        Response response) {
+		                                    if (user != null) {
+		                                        System.out.println("User=" + user);
 
-	                                    }
-	                                    pd.dismiss();
-	                                }
-	                            });
-	                }
-	                if (exception != null) {
-	                    System.out.println("Some thing bad happened!");
-	                    exception.printStackTrace();
-	                }
-	            }
-	        });
-	    }
+		                                    }
+		                                    pd.dismiss();
+		                                }
+		                            });
+		                }
+		                if (exception != null) {
+		                    System.out.println("Some thing bad happened!");
+		                    exception.printStackTrace();
+		                    
+		                    
+		                    pd.dismiss();
+							
+							GlobalMethods.showMessage(getActivity(), "Facebook connect failed.");
+		                }
+		            }
+		        });
+		    }
+	} catch (Exception e) {
+		
+		pd.dismiss();
+		e.printStackTrace();
+		GlobalMethods.showMessage(getActivity(), getString(R.string.internet_error));
+	}
 }
 
 	 
@@ -190,6 +206,7 @@ private void login() {
 		        
 		        btnInviteFreinds=(Button)V.findViewById(R.id.btnInviteFreinds);
 		        btnSearchCodePixFreinds=(Button)V.findViewById(R.id.btnSearchCodePixFreinds);
+		        btnViewCodePixFreinds=(Button)V.findViewById(R.id.btnViewCodePixFreinds);
 		        btnFacebookConnect=(Button)V.findViewById(R.id.btnFacebookConnect);
 		        btnTwitterConnect=(Button)V.findViewById(R.id.btnTwitterConnect);
 		        
@@ -406,7 +423,15 @@ private void login() {
 				});
 		        
 		        
-		        
+		        btnViewCodePixFreinds.setOnClickListener(new Button.OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						Intent intent=new Intent(getActivity(),CodePixViewFriendActivity.class);
+						getActivity().startActivity(intent);
+					}
+				});
 		        
 		        btnProfile.setOnClickListener(new Button.OnClickListener() {
 					
@@ -425,11 +450,16 @@ private void login() {
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
 						
-						mSharedPreferences.edit().clear().commit();
-						mPrefs.edit().clear().commit();
-						codePixPref.edit().clear().commit();
+						try {
+							mSharedPreferences.edit().clear().commit();
+							mPrefs.edit().clear().commit();
+							codePixPref.edit().clear().commit();
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						getActivity().finish();
-						System.exit(0);
+						getActivity().startActivity(new Intent(getActivity(),MainActivity.class));
 						
 					}
 				});

@@ -41,7 +41,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 
-public class CodePixSearchFriendActivity extends AbsListViewBaseActivity {
+public class CodePixViewFriendActivity extends AbsListViewBaseActivity {
 
 	
 
@@ -98,9 +98,9 @@ public class CodePixSearchFriendActivity extends AbsListViewBaseActivity {
 			View view = convertView;
 			final ViewHolder holder;
 			if (convertView == null) {
-				view = getLayoutInflater().inflate(R.layout.list_row, parent, false);
+				view = getLayoutInflater().inflate(R.layout.list_row_view, parent, false);
 				holder = new ViewHolder();
-				holder.button = (Button) view.findViewById(R.id.btnInvite);
+			//	holder.button = (Button) view.findViewById(R.id.btnInvite);
 				holder.image = (ImageView) view.findViewById(R.id.list_image);
 				holder.title = (TextView)view.findViewById(R.id.title);
 				view.setTag(holder);
@@ -112,7 +112,7 @@ public class CodePixSearchFriendActivity extends AbsListViewBaseActivity {
 		     final int pos=position;
 		    holder.title.setText(friend.get("name"));
 		    
-		    if(friend.get("status").equalsIgnoreCase("N")==true)
+		   /* if(friend.get("status").equalsIgnoreCase("N")==true)
 	        {
 		    	holder.button.setText("Add");
 	        }
@@ -120,9 +120,9 @@ public class CodePixSearchFriendActivity extends AbsListViewBaseActivity {
 	    	else if(friend.get("status").equalsIgnoreCase("F")==true)
 	        {
 	    		holder.button.setText("Remove");	
-	        }	
+	        }	*/
 		    
-		    holder.button.setOnClickListener(new Button.OnClickListener() {
+		   /* holder.button.setOnClickListener(new Button.OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
@@ -131,7 +131,7 @@ public class CodePixSearchFriendActivity extends AbsListViewBaseActivity {
 					pd.show();
 					doHandleButtonClick(v,pos,holder.button.getText().toString());
 				}
-			});
+			});*/
 			imageLoader.displayImage(friend.get("photourl"), holder.image, options, animateFirstListener);
 
 			return view;
@@ -149,10 +149,10 @@ public class CodePixSearchFriendActivity extends AbsListViewBaseActivity {
 	                    
 	                    Map<String, String> mapCodePix = new HashMap<String, String>();
 	                 	
-	                    mapCodePix.put("searchCodePixfriend", "1");
-	                    mapCodePix.put("viewerid", codePixPref.getString("userid",""));
+	                    mapCodePix.put("getMyfriends", "1");
+	                    mapCodePix.put("userid", codePixPref.getString("userid",""));
 	                   	                    
-	                    String username=textSearch.getText().toString();
+	                   /* String username=textSearch.getText().toString();
 						if(username.indexOf(" ")==-1)
 	  	              {
 							mapCodePix.put("first_name", username);
@@ -162,7 +162,7 @@ public class CodePixSearchFriendActivity extends AbsListViewBaseActivity {
 	  	              {	  
 	  	            	mapCodePix.put("first_name", username.substring(0, username.indexOf(" ")));
 	  	            	mapCodePix.put("last_name",username.substring(username.lastIndexOf(" "), username.length()));
-	  	              }
+	  	              }*/
 	                          	 
 	                	
 	                	        // Getting JSON from URL
@@ -209,7 +209,7 @@ public class CodePixSearchFriendActivity extends AbsListViewBaseActivity {
 	                            	   
 	                            	   
 	                            	 
-	                            		   JSONArray friends=jsonFromCodepix.getJSONArray("friends");
+	                            		   JSONArray friends=jsonFromCodepix.getJSONArray("users");
 	        	                        	
 	        	                        	for(int i=0;i<friends.length();i++)
 	        								{
@@ -218,11 +218,11 @@ public class CodePixSearchFriendActivity extends AbsListViewBaseActivity {
 	        									 HashMap<String, String> map = new HashMap<String, String>();
 	        									 
 	        									 map.put("name",friend.getString("firstname")+" "+friend.getString("lastname"));
-	        									 map.put("social_id", friend.getString("social_id"));
+	        									// map.put("social_id", friend.getString("social_id"));
 	        									 map.put("photourl", friend.getString("photourl"));
-	        									 map.put("status",friend.getString("status"));
+	        									// map.put("status",friend.getString("status"));
 	        									 map.put("friendid",friend.getString("userid"));
-	        									 map.put("social_type",friend.getString("social_type"));
+	        									 //map.put("social_type",friend.getString("social_type"));
 	        									
 	        									 
 	        									 friendList.add(map);
@@ -389,16 +389,16 @@ public class CodePixSearchFriendActivity extends AbsListViewBaseActivity {
 		
 		super.onBackPressed();
 		
-		startActivity(new Intent(CodePixSearchFriendActivity.this,DashboardActivity.class));
+		startActivity(new Intent(CodePixViewFriendActivity.this,DashboardActivity.class));
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_codepixsearch);
+		setContentView(R.layout.activity_viewcodepixfriend);
 		
 		codePixPref = getSharedPreferences("CodePixPref", 0);
-		textSearch=(EditText)findViewById(R.id.textSearch);
+		//textSearch=(EditText)findViewById(R.id.textSearch);
 		listView = (ListView) findViewById(R.id.listCodePixSearch);
 		friendList=new ArrayList<HashMap<String,String>>();
 		pd = new ProgressDialog(this);
@@ -407,7 +407,7 @@ public class CodePixSearchFriendActivity extends AbsListViewBaseActivity {
 		pd.setCancelable(false);
 		pd.setIndeterminate(true);
 		
-		textSearch.setOnEditorActionListener(new OnEditorActionListener() {
+		/*textSearch.setOnEditorActionListener(new OnEditorActionListener() {
             @Override
 			public boolean onEditorAction(TextView v, int actionId,
                     KeyEvent event) {
@@ -423,7 +423,7 @@ public class CodePixSearchFriendActivity extends AbsListViewBaseActivity {
                     return false;
                 }
 
-            });
+            });*/
 		
 		btnBack=findViewById(R.id.btnBack);
 		btnBack.setOnClickListener(new Button.OnClickListener() {
@@ -434,6 +434,8 @@ public class CodePixSearchFriendActivity extends AbsListViewBaseActivity {
 					onBackPressed();
 				}
 			});
+		
+		getCodPixUsersList();
 		
 	}
 

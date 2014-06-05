@@ -8,6 +8,9 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Calendar;
 
+import com.codepix.loader.ImageLoader;
+import com.codepix.model.CameraIntentHelperActivity;
+import com.codepix.utilz.BitmapHelper;
 import com.codepix.utilz.Global;
 import com.codepix.utilz.GlobalMethods;
 import com.codepix.utilz.HttpClient;
@@ -44,7 +47,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-public class EditProfileActivity extends Activity  {
+public class EditProfileActivity extends CameraIntentHelperActivity  {
 
  
 
@@ -103,7 +106,7 @@ private class SendHttpRequestTask extends AsyncTask<String, Void, String[]> {
         try {
         	
         	String userid=codePixPref.getString("userid", "");
-            HttpClient client = new HttpClient(Global.url,getApplicationContext());
+            HttpClient client = new HttpClient(Global.url,getApplicationContext(),2);
             client.connectForMultipart();
             client.addFormPart("first_name", fname);
             client.addFormPart("last_name", lname);
@@ -117,7 +120,8 @@ private class SendHttpRequestTask extends AsyncTask<String, Void, String[]> {
            
             if(filePath!=null&&filePath.length()>0)
             {	
-            	 Bitmap b = BitmapFactory.decodeFile(filePath);
+            	// Bitmap b = BitmapFactory.decodeFile(filePath);
+            	 Bitmap b = GlobalMethods.ShrinkBitmap(filePath, 403, 503);
 
      	        ByteArrayOutputStream baos = new ByteArrayOutputStream();
      	        b.compress(CompressFormat.PNG, 0, baos);
@@ -149,7 +153,7 @@ private class SendHttpRequestTask extends AsyncTask<String, Void, String[]> {
  	   if(result[0].equals("success"))
  	   {
  		  //DashBoardActivity
- 		   
+ 		   startActivity(new Intent(EditProfileActivity.this,DashboardActivity.class));
  		
  	   }
     }
@@ -238,9 +242,16 @@ private void doHandleImage()
 		            
 		            if(selectedPosition==0)
 		            {
-		            	Intent photoPickerIntent = new Intent(EditProfileActivity.this,Custom_CameraActivity.class);
+		            	/*Intent photoPickerIntent = new Intent(EditProfileActivity.this,Custom_CameraActivity.class);
 						
-						startActivityForResult(photoPickerIntent, SELECT_PHOTO_FROM_CAMERA);
+						startActivityForResult(photoPickerIntent, SELECT_PHOTO_FROM_CAMERA);*/
+		            	
+		            	 try {
+		     				startCameraIntent();
+		     			} catch (Exception e) {
+		     				// TODO Auto-generated catch block
+		     				e.printStackTrace();
+		     			}
 		            }
 		            else  if(selectedPosition==1)
 		            {
@@ -384,6 +395,14 @@ private void doHandleImage()
 						    	   checkBoxMale.setChecked(false);
 						    	 
 						       }
+						       
+						       
+						     //  ImageLoader pLoader=new ImageLoader(this);
+						       
+						      // pLoader.DisplayImage(codePixPref.getString("image_url", ""),imageViewProfile);
+						       
+						       
+						       
 						       
 						       if(codePixPref.getBoolean("image_url_flag", false)==false && codePixPref.getString("downloaded_Profile_image",null)==null)
 						       {
@@ -579,6 +598,65 @@ private void doHandleImage()
 						                .append(mDay).append("-")
 						                .append(mMonth + 1).append("-")
 						                .append(mYear).append(" "));
-						}	    	    
+						}	    
+						
+						 @Override
+							protected void onPhotoUriFound() {
+								//TextView uirView = (TextView) findViewById(R.id.acitvity_take_photo_image_uri);
+								//uirView.setText("photo uri: " + photoUri.toString());
+								
+								//GlobalMethods.showMessage(getApplicationContext(), photoUri.toString());
+								Bitmap photo = BitmapHelper.readBitmap(this, photoUri);
+								
+								//yourSelectedImage=GlobalMethods.ShrinkBitmap(photoUri., 480, 800);
+						        if (photo != null) {
+						        	
+						        	/*RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.MATCH_PARENT);
+						        	LinearLayout linearLayout=(LinearLayout)findViewById(R.id.linearLayout);
+						        	params.addRule(RelativeLayout.BELOW,linearLayout.getId());
+						        	params.addRule(RelativeLayout.CENTER_IN_PARENT);
+						        	params.topMargin=100;
+						        	params.bottomMargin=10;*/
+						        	
+						        	
+						           photo = BitmapHelper.shrinkBitmap(photo, 370, rotateXDegrees);
+						            Bitmap yourSelectedImage = null;
+						            //String path=getRealPathFromURI(ImageEffectsActivity.this,photoUri);
+						    		yourSelectedImage=photo;
+						    		
+						    		filePath=new File(photoUri.getPath()).getAbsolutePath();
+						           // GlobalMethods.showMessage(getApplicationContext(), filePath);
+						           // imgEffect.setLayoutParams(params);
+						          //  ImageView imageView = (ImageView) findViewById(R.id.acitvity_take_photo_image_view);
+						            
+						    		Bitmap b=GlobalMethods.ShrinkBitmap(filePath, 403, 503);
+						    		
+						    		imageViewProfile.setImageBitmap(b); 
+						            
+						          //  imageViewProfile=imgEffect.getHeight();
+						    		//imageHeight=imgEffect.getWidth();
+						            //imgEffect.setRotation(rotateXDegrees);
+						        }
+								
+						        //Delete photo in second location (if applicable)
+						        if (preDefinedCameraUri != null && !preDefinedCameraUri.equals(photoUri)) {
+						        	BitmapHelper.deleteImageWithUriIfExists(preDefinedCameraUri, this);
+						        }
+							}
+						    
+
+							@Override
+							protected void onPhotoUriNotFound() {
+								super.onPhotoUriNotFound();
+								GlobalMethods.showMessage(getApplicationContext(),"photo uri: not found");
+							}	
+							
+							public void onBackPress() {
+						    	// TODO Auto-generated method stub
+						    	//super.onBackPressed();
+						    	
+						    	startActivity(new Intent(EditProfileActivity.this,DashboardActivity.class));
+						    }
+						
 		
 }

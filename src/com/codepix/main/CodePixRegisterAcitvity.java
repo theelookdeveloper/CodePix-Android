@@ -6,12 +6,15 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Calendar;
 
+import com.codepix.model.CameraIntentHelperActivity;
+import com.codepix.utilz.BitmapHelper;
 import com.codepix.utilz.Global;
 import com.codepix.utilz.GlobalMethods;
 import com.codepix.utilz.HttpClient;
 
 
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -42,7 +45,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-public class CodePixRegisterAcitvity extends Activity {
+public class CodePixRegisterAcitvity extends CameraIntentHelperActivity {
 	
 	private class SendHttpRequestTask extends AsyncTask<String, Void, String[]> {
 
@@ -64,7 +67,7 @@ public class CodePixRegisterAcitvity extends Activity {
 	       
 
 	        try {
-	            HttpClient client = new HttpClient(Global.url,getApplicationContext());
+	            HttpClient client = new HttpClient(Global.url,getApplicationContext(),1);
 	            client.connectForMultipart();
 	            client.addFormPart("first_name", fname);
 	            client.addFormPart("last_name", lname);
@@ -78,7 +81,7 @@ public class CodePixRegisterAcitvity extends Activity {
 	           
 	            if(filePath!=null&&filePath.length()>0)
 	            {	
-	            	 Bitmap b = BitmapFactory.decodeFile(filePath);
+	            	 Bitmap b = GlobalMethods.ShrinkBitmap(filePath, 403, 504);
 
 	     	        ByteArrayOutputStream baos = new ByteArrayOutputStream();
 	     	        b.compress(CompressFormat.PNG, 0, baos);
@@ -109,9 +112,9 @@ public class CodePixRegisterAcitvity extends Activity {
 	 	   {
 	 		  //DashBoardActivity
 	 		   
-	 		 
+	 		 codePixPref.edit().clear();
 	 		   
-	 		 Intent intent=  new Intent(CodePixRegisterAcitvity.this,DashboardActivity.class);
+	 		 Intent intent=  new Intent(CodePixRegisterAcitvity.this,LoginActivity.class);
 	 		 startActivity(intent);
 	 	   }
 	 	   /*else
@@ -205,9 +208,16 @@ public class CodePixRegisterAcitvity extends Activity {
                 
                 if(selectedPosition==0)
                 {
-                	Intent photoPickerIntent = new Intent(CodePixRegisterAcitvity.this,Custom_CameraActivity.class);
+                	/*Intent photoPickerIntent = new Intent(CodePixRegisterAcitvity.this,Custom_CameraActivity.class);
     				
-    				startActivityForResult(photoPickerIntent, SELECT_PHOTO_FROM_CAMERA);
+    				startActivityForResult(photoPickerIntent, SELECT_PHOTO_FROM_CAMERA);*/
+                	
+                	try {
+	     				startCameraIntent();
+	     			} catch (Exception e) {
+	     				// TODO Auto-generated catch block
+	     				e.printStackTrace();
+	     			}
                 }
                 else  if(selectedPosition==1)
                 {
@@ -304,7 +314,7 @@ public class CodePixRegisterAcitvity extends Activity {
 		            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(200,200);
 		            params.addRule(RelativeLayout.ALIGN_PARENT_LEFT,1);
 		            imagView.setLayoutParams(params);
-		            imagView.setRotation(90);
+		           // imagView.setRotation(90);
 		            
 	        }
 	        break;
@@ -482,6 +492,60 @@ public class CodePixRegisterAcitvity extends Activity {
 					                .append(mDay).append("-")
 					                .append(mMonth + 1).append("-")
 					                .append(mYear).append(" "));
-					} 	    
+					} 	
+					
+					 @SuppressLint("NewApi")
+					@Override
+						protected void onPhotoUriFound() {
+							//TextView uirView = (TextView) findViewById(R.id.acitvity_take_photo_image_uri);
+							//uirView.setText("photo uri: " + photoUri.toString());
+							
+							//GlobalMethods.showMessage(getApplicationContext(), photoUri.toString());
+							Bitmap photo = BitmapHelper.readBitmap(this, photoUri);
+							
+							//yourSelectedImage=GlobalMethods.ShrinkBitmap(photoUri., 480, 800);
+					        if (photo != null) {
+					        	
+					        	/*RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.MATCH_PARENT);
+					        	LinearLayout linearLayout=(LinearLayout)findViewById(R.id.linearLayout);
+					        	params.addRule(RelativeLayout.BELOW,linearLayout.getId());
+					        	params.addRule(RelativeLayout.CENTER_IN_PARENT);
+					        	params.topMargin=100;
+					        	params.bottomMargin=10;*/
+					        	
+					        	
+					           photo = BitmapHelper.shrinkBitmap(photo, 370, rotateXDegrees);
+					            Bitmap yourSelectedImage = null;
+					            //String path=getRealPathFromURI(ImageEffectsActivity.this,photoUri);
+					    		yourSelectedImage=photo;
+					    		
+					    		filePath=new File(photoUri.getPath()).getAbsolutePath();
+					           // GlobalMethods.showMessage(getApplicationContext(), filePath);
+					           // imgEffect.setLayoutParams(params);
+					          //  ImageView imageView = (ImageView) findViewById(R.id.acitvity_take_photo_image_view);
+					            
+					    		Bitmap b=GlobalMethods.ShrinkBitmap(filePath, 200, 200);
+					    		
+					    		imagView.setImageBitmap(b); 
+					    		imagView.setRotation(90);
+					            
+					          //  imageViewProfile=imgEffect.getHeight();
+					    		//imageHeight=imgEffect.getWidth();
+					            //imgEffect.setRotation(rotateXDegrees);
+					        }
+							
+					        //Delete photo in second location (if applicable)
+					        if (preDefinedCameraUri != null && !preDefinedCameraUri.equals(photoUri)) {
+					        	BitmapHelper.deleteImageWithUriIfExists(preDefinedCameraUri, this);
+					        }
+						}
+					    
+
+						@Override
+						protected void onPhotoUriNotFound() {
+							super.onPhotoUriNotFound();
+							GlobalMethods.showMessage(getApplicationContext(),"photo uri: not found");
+						}			
+					
     
 }

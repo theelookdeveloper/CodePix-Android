@@ -212,7 +212,7 @@ public class InviteFacebook extends AbsListViewBaseActivity{
 			.cacheInMemory(true)
 			.cacheOnDisc(true)
 			.considerExifParams(true)
-			.displayer(new RoundedBitmapDisplayer(10))
+			.displayer(new RoundedBitmapDisplayer(0))
 			.build();
 
 		
@@ -379,77 +379,93 @@ public class InviteFacebook extends AbsListViewBaseActivity{
 			// start Facebook Login
 			
 			
-		    Session.openActiveSession(this, true, new Session.StatusCallback() {
+		    try {
+				Session.openActiveSession(this, true, new Session.StatusCallback() {
 
-		      // callback when session changes state
-		    	 @Override
-		 	      public void call(Session session, SessionState state, Exception exception) {
-		 	    	  if (session.isOpened()) {
-		                   System.out.println("Token=" + session.getAccessToken());
-		                   String fqlQuery = "SELECT uid, first_name,last_name,email,sex,pic_big_with_logo FROM user WHERE uid IN " +
-		                 	        "(SELECT uid2 FROM friend WHERE uid1 = me() ) ORDER BY first_name";
+				  // callback when session changes state
+					 @Override
+				      public void call(Session session, SessionState state, Exception exception) {
+				    	  if (session.isOpened()) {
+				               System.out.println("Token=" + session.getAccessToken());
+				               String fqlQuery = "SELECT uid, first_name,last_name,email,sex,pic_big_with_logo FROM user WHERE uid IN " +
+				             	        "(SELECT uid2 FROM friend WHERE uid1 = me() ) ORDER BY first_name";
 
-		                 	Bundle params = new Bundle();
-		                 	params.putString("q", fqlQuery);
-		                 	
-		                 	
-		                 	Request request = new Request(session,"/fql", params,HttpMethod.GET, new Request.Callback(){         
-		                 	    private String TAG="InviteFriend";
+				             	Bundle params = new Bundle();
+				             	params.putString("q", fqlQuery);
+				             	
+				             	
+				             	Request request = new Request(session,"/fql", params,HttpMethod.GET, new Request.Callback(){         
+				             	    private String TAG="InviteFriend";
 
-								@Override
-								public void onCompleted(Response response) {
-		                 	        //Log.i(TAG, "Result: " + response.toString());
-		                 	       
-		                 	        try{
-		                 	        	
-		                 	            GraphObject graphObject = response.getGraphObject();
+									@Override
+									public void onCompleted(Response response) {
+				             	        //Log.i(TAG, "Result: " + response.toString());
+				             	       
+				             	        try{
+				             	        	
+				             	            GraphObject graphObject = response.getGraphObject();
 
-		                 	            JSONObject jsonObject = graphObject.getInnerJSONObject();
-		                 	            Log.d("data", jsonObject.toString(0));
+				             	            JSONObject jsonObject = graphObject.getInnerJSONObject();
+				             	            Log.d("data", jsonObject.toString(0));
 
-		                 	            JSONArray array = jsonObject.getJSONArray("data");
-		                 	          
-		                 	           JSONArray codepix =new JSONArray();
-		                 	            for(int i=0;i<array.length();i++)
-		                 	            {
-		                 	                JSONObject friend = array.getJSONObject(i);
-		                 	               JSONObject value=new JSONObject();
-		                 	              value.put("socialid",friend.getString("uid"));
-		                 	              value.put("firstname", friend.getString("first_name"));
-		                 	              value.put("lastname",friend.getString("last_name")); 
-		                 	              value.put("gender",friend.getString("sex"));
-		                 	              value.put("email",friend.getString("email"));
-		                 	             value.put("social_type","Facebook");
-		                 	             try {
-											value.put("photourl", URLEncoder.encode(friend.getString("pic_big_with_logo"),"UTF-8"));
-										} catch (UnsupportedEncodingException e) {
-											// TODO Auto-generated catch block
-											e.printStackTrace();
-										}
-		                 	           
-										  codepix.put(value);
-		                 	            }
-		                              
-		                 	           facebookFriendListSyncServer(codepix);
-		                 	          
-		                 	        }catch(JSONException e){
-		                 	            e.printStackTrace();
-		                 	        }
+				             	            JSONArray array = jsonObject.getJSONArray("data");
+				             	          
+				             	           JSONArray codepix =new JSONArray();
+				             	            for(int i=0;i<array.length();i++)
+				             	            {
+				             	                JSONObject friend = array.getJSONObject(i);
+				             	               JSONObject value=new JSONObject();
+				             	              value.put("socialid",friend.getString("uid"));
+				             	              value.put("firstname", friend.getString("first_name"));
+				             	              value.put("lastname",friend.getString("last_name")); 
+				             	              value.put("gender",friend.getString("sex"));
+				             	              value.put("email",friend.getString("email"));
+				             	             value.put("social_type","Facebook");
+				             	             try {
+												value.put("photourl", URLEncoder.encode(friend.getString("pic_big_with_logo"),"UTF-8"));
+											} catch (UnsupportedEncodingException e) {
+												// TODO Auto-generated catch block
+												e.printStackTrace();
+											}
+				             	           
+											  codepix.put(value);
+				             	            }
+				                          
+				             	           facebookFriendListSyncServer(codepix);
+				             	          
+				             	        }catch(JSONException e){
+				             	            e.printStackTrace();
+				             	        }
 
-		                 	      
-		                 	    }                  
-		                 	}); 
-		                 	Request.executeBatchAsync(request); 
-		 	    	  }    
-		 	      }
-			
-		    });
+				             	      
+				             	    }                  
+				             	}); 
+				             	Request.executeBatchAsync(request); 
+				    	  }    
+				      }
+				
+				});
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				if(pd.isShowing())
+				pd.dismiss();
+				e.printStackTrace();
+				GlobalMethods.showMessage(getApplicationContext(), getString(R.string.internet_error));
+			}
 		}
 		
 		@Override
 		  public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		      super.onActivityResult(requestCode, resultCode, data);
-		      Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+		      if(GlobalMethods.checkInternetConnection(getApplicationContext()))
+				{
+				 Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+				}
+				else
+				{
+					GlobalMethods.showMessage(getApplicationContext(), getString(R.string.internet_error));
+				}	
 		  }
 
 		@Override
@@ -478,7 +494,14 @@ public class InviteFacebook extends AbsListViewBaseActivity{
 				// Getting adapter by passing xml data ArrayList
 		      //  adapter=new LazyAdapter(this, friendList);        
 		       // listInvite.setAdapter(adapter);
+			 if(GlobalMethods.checkInternetConnection(getApplicationContext()))
+				{
 		        login();
+				}
+			 else
+				{
+					GlobalMethods.showMessage(getApplicationContext(), getString(R.string.internet_error));
+				}
 		          pd = new ProgressDialog(this);
 				
 				pd.setMessage("Please wait.");

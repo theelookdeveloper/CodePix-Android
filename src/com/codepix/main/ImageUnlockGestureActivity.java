@@ -230,8 +230,15 @@ public class ImageUnlockGestureActivity extends Activity {
 			
 			cordinates=new double[2];
 			
-			cordinates[0]=Double.parseDouble(points.substring(0, points.indexOf(",")));
-			cordinates[1]=Double.parseDouble(points.substring(points.lastIndexOf(",")+1, points.length()));
+			try {
+				cordinates[0]=Double.parseDouble(points.substring(0, points.indexOf(",")));
+				cordinates[1]=Double.parseDouble(points.substring(points.lastIndexOf(",")+1, points.length()));
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				cordinates[0]=0;
+				cordinates[1]=0;
+				e.printStackTrace();
+			}
 			
 			CharSequence caption=c.getString(c.getColumnIndex(DBHelper.KEY_CAPTION));
 			

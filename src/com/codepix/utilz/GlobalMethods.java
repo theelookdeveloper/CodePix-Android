@@ -466,25 +466,31 @@ public final class GlobalMethods {
 	   
 	   public static Bitmap ShrinkBitmap(String file, int width, int height) {
 	    // TODO Auto-generated method stub
-	    BitmapFactory.Options bmpFactoryOptions = new BitmapFactory.Options();
-	    bmpFactoryOptions.inJustDecodeBounds = true;
-	    Bitmap bitmap = BitmapFactory.decodeFile(file, bmpFactoryOptions);
+	    Bitmap bitmap = null;
+		try {
+			BitmapFactory.Options bmpFactoryOptions = new BitmapFactory.Options();
+			bmpFactoryOptions.inJustDecodeBounds = true;
+			bitmap = BitmapFactory.decodeFile(file, bmpFactoryOptions);
 
-	    int heightRatio = (int)Math.ceil(bmpFactoryOptions.outHeight/(float)height);
-	    int widthRatio = (int)Math.ceil(bmpFactoryOptions.outWidth/(float)width);
+			int heightRatio = (int)Math.ceil(bmpFactoryOptions.outHeight/(float)height);
+			int widthRatio = (int)Math.ceil(bmpFactoryOptions.outWidth/(float)width);
 
-	    if (heightRatio > 1 || widthRatio > 1)
-	    {
-	     if (heightRatio > widthRatio)
-	     {
-	      bmpFactoryOptions.inSampleSize = heightRatio;
-	     } else {
-	      bmpFactoryOptions.inSampleSize = widthRatio;
-	     }
-	    }
+			if (heightRatio > 1 || widthRatio > 1)
+			{
+			 if (heightRatio > widthRatio)
+			 {
+			  bmpFactoryOptions.inSampleSize = heightRatio;
+			 } else {
+			  bmpFactoryOptions.inSampleSize = widthRatio;
+			 }
+			}
 
-	    bmpFactoryOptions.inJustDecodeBounds = false;
-	    bitmap = BitmapFactory.decodeFile(file, bmpFactoryOptions);
+			bmpFactoryOptions.inJustDecodeBounds = false;
+			bitmap = BitmapFactory.decodeFile(file, bmpFactoryOptions);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	 return bitmap;
 	}
 }

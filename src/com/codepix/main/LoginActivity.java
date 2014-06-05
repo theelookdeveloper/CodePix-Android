@@ -189,7 +189,7 @@ public class LoginActivity extends Activity {
 	       
 
 	        try {
-	            HttpClient client = new HttpClient(Global.url);
+	            HttpClient client = new HttpClient(Global.url,getApplicationContext(),3);
 	            client.connectForMultipart();
 	            
 	            client.addFormPart("email", email);
@@ -246,7 +246,7 @@ public class LoginActivity extends Activity {
 	       
 
 	        try {
-	            HttpClient client = new HttpClient(Global.url,getApplicationContext());
+	            HttpClient client = new HttpClient(Global.url,getApplicationContext(),1);
 	            client.connectForMultipart();
 	            
 	            client.addFormPart("email", email);
@@ -471,7 +471,7 @@ public class LoginActivity extends Activity {
 	     mapFacebook.put("gender", profile.getString("gender"));
 	     mapFacebook.put("Birth_date", profile.getString("birthday"));
 	     mapFacebook.put("login_type", "Facebook");
-	  //   mapFacebook.put("profile_page_url", "http://graph.facebook.com/"+profile.getString("id")+"/picture?type=large");
+	    // mapFacebook.put("image_url", "http://graph.facebook.com/"+profile.getString("id")+"/picture?type=small");
 	     
 	     new Thread(new Runnable() {
 			
@@ -805,6 +805,10 @@ public class LoginActivity extends Activity {
 				                if (exception != null) {
 				                    System.out.println("Some thing bad happened!");
 				                    exception.printStackTrace();
+				                    
+				                    pd.dismiss();
+									
+									GlobalMethods.showMessage(getApplicationContext(), "Facebook Login failed.");
 				                }
 				            }
 				        });
@@ -922,7 +926,14 @@ public class LoginActivity extends Activity {
 		 
 		 else
 		 {
-			 Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);	 
+			if(GlobalMethods.checkInternetConnection(getApplicationContext()))
+			{
+			 Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+			}
+			else
+			{
+				GlobalMethods.showMessage(getApplicationContext(), getString(R.string.internet_error));
+			}	
 		 }
 		 
 		 }
@@ -1007,10 +1018,18 @@ public class LoginActivity extends Activity {
 					if(flag==true)
 					{
 						System.out.println("step2");
-						pd.show();
+						
 						 //logoutFromFacebook();
 						try {
-							login();
+							if(GlobalMethods.checkInternetConnection(getApplicationContext()))
+							{	
+							   pd.show();
+							   login();
+							}
+							else
+							{
+								GlobalMethods.showMessage(getApplicationContext(), getString(R.string.internet_error));
+							}	
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							pd.dismiss();

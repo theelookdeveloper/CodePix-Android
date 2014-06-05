@@ -150,7 +150,7 @@ public class ImageDistortedUploadActivity extends Activity {
      	   if(result[0].equals("success"))
      	   {
      		  //DashBoardActivity
-     		      		     		   
+     		      		finish();     		   
      		 Intent intent=  new Intent(ImageDistortedUploadActivity.this,DashboardActivity.class);
      		 startActivity(intent);
      	   }
@@ -361,40 +361,52 @@ public class ImageDistortedUploadActivity extends Activity {
 
 	
     private void login() {
-   	 if (Session.getActiveSession() == null
-   	            || Session.getActiveSession().isClosed()) {
-   	        Session.openActiveSession(ImageDistortedUploadActivity.this, true, new StatusCallback() {
+   	 try {
+		if (Session.getActiveSession() == null
+		            || Session.getActiveSession().isClosed()) {
+		        Session.openActiveSession(ImageDistortedUploadActivity.this, true, new StatusCallback() {
 
-   	            @SuppressWarnings("deprecation")
-   				@Override
-   	            public void call(Session session, SessionState state,
-   	                    Exception exception) {
-   	                System.out.println("State= " + state);
+		            @SuppressWarnings("deprecation")
+					@Override
+		            public void call(Session session, SessionState state,
+		                    Exception exception) {
+		                System.out.println("State= " + state);
 
-   	                if (session.isOpened()) {
-   	                    System.out.println("Token=" + session.getAccessToken());
-   	                    
-   	                    mPrefs.edit().putString("fbToken", session.getAccessToken()).commit();
-   	                    Request.executeMeRequestAsync(session,
-   	                            new GraphUserCallback() {
-   	                                @Override
-   	                                public void onCompleted(GraphUser user,
-   	                                        Response response) {
-   	                                    if (user != null) {
-   	                                        System.out.println("User=" + user);
+		                if (session.isOpened()) {
+		                    System.out.println("Token=" + session.getAccessToken());
+		                    
+		                    mPrefs.edit().putString("fbToken", session.getAccessToken()).commit();
+		                    Request.executeMeRequestAsync(session,
+		                            new GraphUserCallback() {
+		                                @Override
+		                                public void onCompleted(GraphUser user,
+		                                        Response response) {
+		                                    if (user != null) {
+		                                        System.out.println("User=" + user);
 
-   	                                    }
-   	                                    pd.dismiss();
-   	                                }
-   	                            });
-   	                }
-   	                if (exception != null) {
-   	                    System.out.println("Some thing bad happened!");
-   	                    exception.printStackTrace();
-   	                }
-   	            }
-   	        });
-   	    }
+		                                    }
+		                                    pd.dismiss();
+		                                }
+		                            });
+		                }
+		                if (exception != null) {
+		                    System.out.println("Some thing bad happened!");
+		                    exception.printStackTrace();
+		                    
+		                    pd.dismiss();
+							
+							GlobalMethods.showMessage(getApplicationContext(), "Facebook Share failed.");
+		                }
+		            }
+		        });
+		    }
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		
+		pd.dismiss();
+		e.printStackTrace();
+		GlobalMethods.showMessage(getApplicationContext(), getString(R.string.internet_error));
+	}
    }
     
     /**
@@ -502,7 +514,14 @@ public class ImageDistortedUploadActivity extends Activity {
 
     else
 	 {
-		 Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);	 
+    	 if(GlobalMethods.checkInternetConnection(getApplicationContext()))
+ 		{
+ 		 Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+ 		}
+ 		else
+ 		{
+ 			GlobalMethods.showMessage(getApplicationContext(), getString(R.string.internet_error));
+ 		}		 
 	 }
     
     }
@@ -593,7 +612,7 @@ public class ImageDistortedUploadActivity extends Activity {
 	        imageViewDistorted=(ImageView)findViewById(R.id.imageViewDistorted);
 	        editTextCaption=(EditText)findViewById(R.id.editTextCaption);
 	        editTextSecretMessage=(EditText)findViewById(R.id.editTextSecretMessage);
-	        btnBack=(Button)findViewById(R.id.btnBack);
+	     //   btnBack=(Button)findViewById(R.id.btnBack);
 	        btnCancel=(Button)findViewById(R.id.btnCancel);
 	        
 	        checkBoxFacebookShare=(CheckBox)findViewById(R.id.checkBoxFacebookShare);
@@ -696,14 +715,14 @@ public class ImageDistortedUploadActivity extends Activity {
 			});
             
             
-            btnBack.setOnClickListener(new Button.OnClickListener() {
+          /*  btnBack.setOnClickListener(new Button.OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
 					onBackPressed();
 				}
-			});
+			});*/
             
            btnCancel.setOnClickListener(new Button.OnClickListener() {
 				
@@ -837,63 +856,70 @@ public class ImageDistortedUploadActivity extends Activity {
     
     private void publishStory() {
     	
-    	Session.openActiveSession(this, true, new Session.StatusCallback() {
+    	try {
+			Session.openActiveSession(this, true, new Session.StatusCallback() {
 
-  	      // callback when session changes state
-  	    	 @Override
-  	 	      public void call(Session session, SessionState state, Exception exception) {
-  	 	    	  if (session.isOpened()) {
-  	                  
-  	                 	
-  	                 	
-  	                 	if (session != null){
+			  // callback when session changes state
+				 @Override
+			      public void call(Session session, SessionState state, Exception exception) {
+			    	  if (session.isOpened()) {
+			              
+			             	
+			             	
+			             	if (session != null){
 
-  	              		
-  	          			if(session.isOpened() && state == SessionState.OPENED && !session.getPermissions().contains("publish_stream")){
-  	                          final String[] PERMISSION_ARRAY_PUBLISH = {"publish_stream"};
-  	                          final List<String> permissionList = Arrays.asList(PERMISSION_ARRAY_PUBLISH);
-  	                          session.requestNewPublishPermissions(new NewPermissionsRequest(ImageDistortedUploadActivity.this,permissionList ));
-  	                          return;
-  	                      }
+			          		
+			      			if(session.isOpened() && state == SessionState.OPENED && !session.getPermissions().contains("publish_stream")){
+			                      final String[] PERMISSION_ARRAY_PUBLISH = {"publish_stream"};
+			                      final List<String> permissionList = Arrays.asList(PERMISSION_ARRAY_PUBLISH);
+			                      session.requestNewPublishPermissions(new NewPermissionsRequest(ImageDistortedUploadActivity.this,permissionList ));
+			                      return;
+			                  }
 
-  	              	   // Bundle postParams = new Bundle();
-  	              	   // postParams.putString("name", "Facebook SDK for Android");
-  	              	   // postParams.putString("caption", "Build great social apps and get more installs.");
-  	              	   // postParams.putString("description", "The Facebook SDK for Android makes it easier and faster to develop Facebook integrated Android apps.");
-  	              	   // postParams.putString("link", "https://developers.facebook.com/android");
-  	              	   // postParams.putString("picture", "https://raw.github.com/fbsamples/ios-3.x-howtos/master/Images/iossdk_logo.png");
-  	              	    byte[] data = null;
+			          	   // Bundle postParams = new Bundle();
+			          	   // postParams.putString("name", "Facebook SDK for Android");
+			          	   // postParams.putString("caption", "Build great social apps and get more installs.");
+			          	   // postParams.putString("description", "The Facebook SDK for Android makes it easier and faster to develop Facebook integrated Android apps.");
+			          	   // postParams.putString("link", "https://developers.facebook.com/android");
+			          	   // postParams.putString("picture", "https://raw.github.com/fbsamples/ios-3.x-howtos/master/Images/iossdk_logo.png");
+			          	    byte[] data = null;
 
-  	              	    Bitmap bi = BitmapFactory.decodeFile(new File(filePathDistorted).getAbsolutePath());
-  	              	    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-  	              	    bi.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-  	              	    data = baos.toByteArray();
+			          	    Bitmap bi = BitmapFactory.decodeFile(new File(filePathDistorted).getAbsolutePath());
+			          	    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			          	    bi.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+			          	    data = baos.toByteArray();
 
-  	              	   
-  	              	    
-  	              	    
-  	              	    Request.Callback callback= new Request.Callback() {
-  	              	        @Override
-							public void onCompleted(Response response) {
-  	              	            System.out.println("response"+response);
-  	              	        }
-  	              	    };
-                       
-  	              	    Request request = Request.newUploadPhotoRequest(session,bi, callback);
-  	              	 Bundle params = request.getParameters();
- 	              	  params.putString("message", editTextCaption.getText().toString()+": To view image, click here to download CodePix");
- 	              	   // params.putString("method", "photos.upload");
- 	              	    //params.putByteArray("picture", data);
- 	              	    //params.putString("link", "https://developers.facebook.com/android");
-  	              	request.setParameters(params);
-  	              	    RequestAsyncTask task = new RequestAsyncTask(request);
-  	              	    task.execute();
-  	              	}
-  	                 	//Request.executeBatchAsync(request); 
-  	 	    	  }    
-  	 	      }
-  		
-  	    });
+			          	   
+			          	    
+			          	    
+			          	    Request.Callback callback= new Request.Callback() {
+			          	        @Override
+								public void onCompleted(Response response) {
+			          	            System.out.println("response"+response);
+			          	        }
+			          	    };
+			               
+			          	    Request request = Request.newUploadPhotoRequest(session,bi, callback);
+			          	 Bundle params = request.getParameters();
+			          	  params.putString("message", editTextCaption.getText().toString()+": To view image, click here to download CodePix");
+			          	   // params.putString("method", "photos.upload");
+			          	    //params.putByteArray("picture", data);
+			          	    //params.putString("link", "https://developers.facebook.com/android");
+			          	request.setParameters(params);
+			          	    RequestAsyncTask task = new RequestAsyncTask(request);
+			          	    task.execute();
+			          	}
+			             	//Request.executeBatchAsync(request); 
+			    	  }    
+			      }
+			
+			});
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			pd.dismiss();
+			e.printStackTrace();
+			GlobalMethods.showMessage(getApplicationContext(), getString(R.string.internet_error));
+		}
     	
     	 
     	

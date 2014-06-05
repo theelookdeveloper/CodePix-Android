@@ -7,6 +7,7 @@ import twitter4j.User;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
+import com.codepix.utilz.GlobalMethods;
 import com.facebook.Session;
 
 import android.app.Activity;
@@ -275,7 +276,14 @@ case SELECT_PHOTO:
     
    default:
 	   
-	   Session.getActiveSession().onActivityResult(DashboardActivity.this, requestCode, resultCode, data);
+	   if(GlobalMethods.checkInternetConnection(getApplicationContext()))
+		{
+		 Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+		}
+		else
+		{
+			GlobalMethods.showMessage(getApplicationContext(), getString(R.string.internet_error));
+		}	
 	   break;
 }
 

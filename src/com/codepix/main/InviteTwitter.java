@@ -201,7 +201,7 @@ public class InviteTwitter extends AbsListViewBaseActivity{
 		.cacheInMemory(true)
 		.cacheOnDisc(true)
 		.considerExifParams(true)
-		.displayer(new RoundedBitmapDisplayer(10))
+		.displayer(new RoundedBitmapDisplayer(0))
 		.build();
 
 	

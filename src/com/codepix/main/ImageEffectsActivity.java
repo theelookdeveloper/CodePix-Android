@@ -582,11 +582,12 @@ public class ImageEffectsActivity extends CameraIntentHelperActivity {
 			         intent.putExtra("effectsAdded", effectsAdded);
 			         
 			         startActivity(intent);
+			         finish();
 				}
 			});
             
             
-            btnCancel=(Button)findViewById(R.id.btnCancel);
+          /*  btnCancel=(Button)findViewById(R.id.btnCancel);
             
             btnCancel.setOnClickListener(new Button.OnClickListener() {
 				
@@ -596,7 +597,7 @@ public class ImageEffectsActivity extends CameraIntentHelperActivity {
 					onBackPress();
 					
 				}
-			});
+			});*/
             
             
 			btnNone.setOnClickListener(new Button.OnClickListener() {
@@ -676,7 +677,7 @@ public class ImageEffectsActivity extends CameraIntentHelperActivity {
     		yourSelectedImage=photo;
     		
     		filePath=new File(photoUri.getPath()).getAbsolutePath();
-            GlobalMethods.showMessage(getApplicationContext(), filePath);
+           // GlobalMethods.showMessage(getApplicationContext(), filePath);
            // imgEffect.setLayoutParams(params);
           //  ImageView imageView = (ImageView) findViewById(R.id.acitvity_take_photo_image_view);
             imgEffect.setImageBitmap(photo); 

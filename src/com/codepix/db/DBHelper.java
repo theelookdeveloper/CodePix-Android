@@ -14,6 +14,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import android.database.sqlite.SQLiteOpenHelper;
 
+import android.os.Build;
 import android.util.Log;
 
 
@@ -181,109 +182,7 @@ public class DBHelper {
 
 	}
 
-
-
-	/*public boolean approveNews(ArrayList<Integer> data) {
-		//Cursor c=db.rawQuery("update "+TABLE_POST+" set "+KEY_APPROVED+"=\"APPROVED\" where "+KEY_SECREATE_MESSAGE+" in ("+ids+")",null);
-	      
-	   //  System.out.println("query"+" update "+TABLE_POST+" set "+KEY_APPROVED+"=\"APPROVED\" where "+KEY_SECREATE_MESSAGE+" in ("+ids+")");
-	    boolean f=false; 
-	   ContentValues cv= new ContentValues();
-	     
-	     cv.put(KEY_APPROVED, "APPROVED");
-		
-		
-		for(int i=0;i<data.size();i++)
-		{
-			int newsid = data.get(i);
-			 System.out.println("query"+newsid);
-		    db.update(TABLE_POST, cv, KEY_SECREATE_MESSAGE+"="+newsid,null);
-		    f=true;
-		}
-		
-		
-
-	  
-	         return f;  // 0 for unsuccessful
-	}
-
-
-
 	
-
-
-	// Custom Methods
-
-
-
-	// Check if City Exists
-
-	public Boolean checkCityName(String name) throws SQLException {
-
-		Cursor mCursor = db
-
-				.query(TABLE_CITIES, new String[] { ID, KEY_NAME }, KEY_NAME
-
-						+ "=" + "'" + name + "'", null, null, null, null, null);
-
-
-
-		if (mCursor.moveToFirst()) {
-
-			return true;
-
-		}
-
-		return false;
-
-	}
-
-
-
-	// Insert data to user table
-
-	public boolean checkUser(String username, String password) {
-		// TODO Auto-generated method stub
-		
-		Cursor cur=db.query(TABLE_USER,null, KEY_USERNAME + "=" + username +" and "+KEY_PASSWORD + "=" + password , null, null,null, null, null);
-		if (cur.getCount()==1)
-		return true;
-		else		
-		return false;
-	}
-
-	public void close() {
-
-		DBHelper.close();
-
-	}
-
-
-	// List only user Fname
-
-	public boolean deleteNews(ArrayList<Integer> data) {
-		// TODO Auto-generated method stub
-		 boolean f=false; 
-		  
-			for(int i=0;i<data.size();i++)
-			{
-				int newsid = data.get(i);
-				 System.out.println("query"+newsid);
-			    db.delete(TABLE_POST, KEY_SECREATE_MESSAGE+"="+newsid,null);
-			    f=true;
-			}
-			
-			return f;
-	}
-
-
-
-	public Cursor getADeleteListNews() {
-		return db.query(TABLE_POST, new String[] { KEY_SECREATE_MESSAGE, KEY_,KEY_ORIGINAL_IMAGE_URL,KEY_WIDTH,KEY_DATE,KEY_SUBMITTEDBY,KEY_APPROVED},
-
-				null,  null,null, null,KEY_DATE+" desc");
-	}
-*/
 
 
 	
@@ -302,12 +201,13 @@ public class DBHelper {
 
 
 	public void close() {
+        
 
 		DBHelper.close();
 
 	}
 
-
+	
 
 	public Cursor getExploreListPost(String userid) {
 		// TODO Auto-generated method stub

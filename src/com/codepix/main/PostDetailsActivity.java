@@ -17,6 +17,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -602,6 +603,7 @@ public class PostDetailsActivity extends Activity{
 	private Button buttonLike;
 	private Button btnDelete;
 	private SharedPreferences codePixPref;
+	private DBHelper db;
 	
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private void deletePostFromServer() {
@@ -690,7 +692,8 @@ public class PostDetailsActivity extends Activity{
 	}
 	
 	
-	  @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
+	  @SuppressWarnings("deprecation")
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -718,159 +721,168 @@ public class PostDetailsActivity extends Activity{
 		textViewCommentCount=(TextView)findViewById(R.id.textViewCommentCount);
 		textViewLikeCount=(TextView)findViewById(R.id.textViewLikeCount);
 
-        DBHelper db = new DBHelper(this);
-        
-		db.open();
-        postid=b.getString("postid", "0");
-        //Toast.makeText(this, "postid"+postid, Toast.LENGTH_LONG).show();
-		Cursor c = db.getPostDetails(Integer.parseInt(postid));
- 
-		startManagingCursor(c);
-		
-		c.moveToNext();
-		
-		String image=c.getString(c.getColumnIndex(DBHelper.KEY_DISTORTED_IMAGE_URL));
-		String imageProfileURL=c.getString(c.getColumnIndex(DBHelper.KEY_IMAGE_URL));
-		String name=c.getString(c.getColumnIndex(DBHelper.KEY_FIRST_NAME))+" "+c.getString(c.getColumnIndex(DBHelper.KEY_LAST_NAME)) ;
-		String caption=c.getString(c.getColumnIndex(DBHelper.KEY_CAPTION)) ;
-		String comments=c.getString(c.getColumnIndex(DBHelper.KEY_COMMENTS_COUNT)) ;
-		likestatus=c.getString(c.getColumnIndex(DBHelper.KEY_LIKE_STATUS));
-		String unlockStatus=c.getString(c.getColumnIndex(DBHelper.KEY_STATUS));
-		String likesCount=c.getString(c.getColumnIndex(DBHelper.KEY_LIKE_COUNT));
-		String uploadedby=c.getString(c.getColumnIndex(DBHelper.KEY_UPLOADEDBBY));
-		if(image.length()==0)
-			image=c.getString(c.getColumnIndex(DBHelper.KEY_ORIGINAL_IMAGE_URL));
-		
-		if(unlockStatus.equals("1")==true)
-		{
-			image=c.getString(c.getColumnIndex(DBHelper.KEY_ORIGINAL_IMAGE_URL));
-		}
-		else
-		{
-			image=c.getString(c.getColumnIndex(DBHelper.KEY_DISTORTED_IMAGE_URL));
-		}
-		
-		
-		if(!codePixPref.getString("userid", "0").equals(uploadedby))
-		{
-			btnDelete.setText("");
-			btnDelete.setEnabled(false);
-			btnDelete.setWidth(0);
-			btnDelete.setHeight(0);
-			btnDelete.setBackgroundColor(Color.TRANSPARENT);
-		}
-		
-		
-		mLoader = new ImageLoader(this);
-	
-		mLoader.DisplayImage(image, imageView);
-		mLoader.DisplayImage(imageProfileURL, imageProfile);
-		
-		textViewName.setText(name);
-		textViewCaption.setText(caption);
-		textViewCommentCount.setText(comments);
-		textViewLikeCount.setText(likesCount);
-		
-		commentlist=new ArrayList<HashMap<String,String>>();
-		
-		
-		
-	//	System.out.println("list count"+commentlist.size());
-		adapter=new PostCommentAdapter(getApplicationContext(),commentlist);
-		listViewComment.setAdapter(adapter);
-		
-		
-		
-		//ListView lv = (ListView)findViewById(R.id.myListView);  // your listview inside scrollview
-/*		listViewComment.setOnTouchListener(new ListView.OnTouchListener() {
-		        @Override
-		        public boolean onTouch(View v, MotionEvent event) {
-		            int action = event.getAction();
-		            switch (action) {
-		            case MotionEvent.ACTION_DOWN:
-		                // Disallow ScrollView to intercept touch events.
-		                v.getParent().requestDisallowInterceptTouchEvent(true);
-		                break;
-
-		            case MotionEvent.ACTION_UP:
-		                // Allow ScrollView to intercept touch events.
-		                v.getParent().requestDisallowInterceptTouchEvent(false);
-		                break;
-		            }
-
-		            // Handle ListView touch events.
-		            v.onTouchEvent(event);
-		            return true;
-		        }
-		    });*/
-		setListViewScrollable(listViewComment);
-		adapter.notifyDataSetChanged();
-		 pd = new ProgressDialog(this);
+        try {
+			db = new DBHelper(this);
 			
-			pd.setMessage("Please wait.");
-			pd.setCancelable(false);
-			pd.setIndeterminate(true);
+			db.open();
+			postid=b.getString("postid", "0");
+			//Toast.makeText(this, "postid"+postid, Toast.LENGTH_LONG).show();
+			Cursor c = db.getPostDetails(Integer.parseInt(postid));
+			 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) 
+			startManagingCursor(c);
 			
-			buttonComment.setOnClickListener(new Button.OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					callAddComment();
-				}
-			});	
+			c.moveToNext();
 			
-			if(likestatus.equals("1")==true)
+			String image=c.getString(c.getColumnIndex(DBHelper.KEY_DISTORTED_IMAGE_URL));
+			String imageProfileURL=c.getString(c.getColumnIndex(DBHelper.KEY_IMAGE_URL));
+			String name=c.getString(c.getColumnIndex(DBHelper.KEY_FIRST_NAME))+" "+c.getString(c.getColumnIndex(DBHelper.KEY_LAST_NAME)) ;
+			String caption=c.getString(c.getColumnIndex(DBHelper.KEY_CAPTION)) ;
+			String comments=c.getString(c.getColumnIndex(DBHelper.KEY_COMMENTS_COUNT)) ;
+			likestatus=c.getString(c.getColumnIndex(DBHelper.KEY_LIKE_STATUS));
+			String unlockStatus=c.getString(c.getColumnIndex(DBHelper.KEY_STATUS));
+			String likesCount=c.getString(c.getColumnIndex(DBHelper.KEY_LIKE_COUNT));
+			String uploadedby=c.getString(c.getColumnIndex(DBHelper.KEY_UPLOADEDBBY));
+			if(image.length()==0)
+				image=c.getString(c.getColumnIndex(DBHelper.KEY_ORIGINAL_IMAGE_URL));
+			
+			if(unlockStatus.equals("1")==true)
 			{
-				//likestatus="1";
-				
-				buttonLike.setEnabled(true);
-				buttonLike.setBackgroundColor(Color.parseColor("#FF0000"));
+				image=c.getString(c.getColumnIndex(DBHelper.KEY_ORIGINAL_IMAGE_URL));
 			}
 			else
 			{
-				//likestatus="0";
-				buttonLike.setEnabled(true);
-				buttonLike.setBackgroundColor(Color.parseColor("#CCCCCC"));
-			}	
+				image=c.getString(c.getColumnIndex(DBHelper.KEY_DISTORTED_IMAGE_URL));
+			}
 			
-			buttonLike.setOnClickListener(new Button.OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					if(likestatus.equals("0")==true)
-					{
-						likestatus="1";
-						
-						buttonLike.setEnabled(true);
-						buttonLike.setBackgroundColor(Color.parseColor("#FF0000"));
-					}
-					else
-					{
-						likestatus="0";
-						buttonLike.setEnabled(true);
-						buttonLike.setBackgroundColor(Color.parseColor("#CCCCCC"));
-					}	
-					
-					likeUnlikeToServer();
-				}
-			});
 			
-			btnDelete.setOnClickListener(new Button.OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					deletePostFromServer();
-				}
+			if(!codePixPref.getString("userid", "0").equals(uploadedby))
+			{
+				btnDelete.setText("");
+				btnDelete.setEnabled(false);
+				btnDelete.setWidth(0);
+				btnDelete.setHeight(0);
+				btnDelete.setBackgroundColor(Color.TRANSPARENT);
+			}
+			
+			
+			mLoader = new ImageLoader(this);
 
-				
-			});	
+			mLoader.DisplayImage(image, imageView);
+			mLoader.DisplayImage(imageProfileURL, imageProfile);
 			
-		getCommentsFromServer();
+			textViewName.setText(name);
+			textViewCaption.setText(caption);
+			textViewCommentCount.setText(comments);
+			textViewLikeCount.setText(likesCount);
+			
+			commentlist=new ArrayList<HashMap<String,String>>();
+			
+			
+			
+//	System.out.println("list count"+commentlist.size());
+			adapter=new PostCommentAdapter(getApplicationContext(),commentlist);
+			listViewComment.setAdapter(adapter);
+			
+			
+			
+			//ListView lv = (ListView)findViewById(R.id.myListView);  // your listview inside scrollview
+/*		listViewComment.setOnTouchListener(new ListView.OnTouchListener() {
+			        @Override
+			        public boolean onTouch(View v, MotionEvent event) {
+			            int action = event.getAction();
+			            switch (action) {
+			            case MotionEvent.ACTION_DOWN:
+			                // Disallow ScrollView to intercept touch events.
+			                v.getParent().requestDisallowInterceptTouchEvent(true);
+			                break;
+
+			            case MotionEvent.ACTION_UP:
+			                // Allow ScrollView to intercept touch events.
+			                v.getParent().requestDisallowInterceptTouchEvent(false);
+			                break;
+			            }
+
+			            // Handle ListView touch events.
+			            v.onTouchEvent(event);
+			            return true;
+			        }
+			    });*/
+			setListViewScrollable(listViewComment);
+			adapter.notifyDataSetChanged();
+			 pd = new ProgressDialog(this);
+				
+				pd.setMessage("Please wait.");
+				pd.setCancelable(false);
+				pd.setIndeterminate(true);
+				
+				buttonComment.setOnClickListener(new Button.OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						callAddComment();
+					}
+				});	
+				
+				if(likestatus.equals("1")==true)
+				{
+					//likestatus="1";
+					
+					buttonLike.setEnabled(true);
+					buttonLike.setBackgroundColor(Color.parseColor("#FF0000"));
+				}
+				else
+				{
+					//likestatus="0";
+					buttonLike.setEnabled(true);
+					buttonLike.setBackgroundColor(Color.parseColor("#CCCCCC"));
+				}	
+				
+				buttonLike.setOnClickListener(new Button.OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						if(likestatus.equals("0")==true)
+						{
+							likestatus="1";
+							
+							buttonLike.setEnabled(true);
+							buttonLike.setBackgroundColor(Color.parseColor("#FF0000"));
+						}
+						else
+						{
+							likestatus="0";
+							buttonLike.setEnabled(true);
+							buttonLike.setBackgroundColor(Color.parseColor("#CCCCCC"));
+						}	
+						
+						likeUnlikeToServer();
+					}
+				});
+				
+				btnDelete.setOnClickListener(new Button.OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						deletePostFromServer();
+					}
+
+					
+				});	
+				
+					
+			getCommentsFromServer();
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		db.close();
+		
 	}
     
 	  private void setListViewScrollable(final ListView list) {
@@ -998,6 +1010,14 @@ public class PostDetailsActivity extends Activity{
 		    cLoader.DisplayImage(postComment.get("photourl"),image);
 		} 	
 		
+	}
+	
+	
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		db.close();
 	}
 	
 	 private class ViewHolder {

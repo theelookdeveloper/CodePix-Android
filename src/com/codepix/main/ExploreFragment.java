@@ -133,6 +133,7 @@ BroadcastReceiver postsReceiver = new BroadcastReceiver() {
       }
   };
 private String excludesids;
+private DBHelper db;
 
 protected void callPostDetails(String postid, String status) {
 	// TODO Auto-generated method stub
@@ -178,7 +179,8 @@ protected void callPostDetails(String postid, String status) {
 		 
 		
 	}
-  @TargetApi(Build.VERSION_CODES.GINGERBREAD)
+  @SuppressWarnings("deprecation")
+@TargetApi(Build.VERSION_CODES.GINGERBREAD)
 @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
         Bundle savedInstanceState) {
@@ -188,7 +190,7 @@ protected void callPostDetails(String postid, String status) {
         View V = inflater.inflate(R.layout.fragment_explore, container, false);
         
         postlist=new ArrayList<HashMap<String, String>>();
-        DBHelper db = new DBHelper(getActivity());
+        db = new DBHelper(getActivity());
         
 		db.open();
 		codePixPref=getActivity().getSharedPreferences("CodePixPref", 0);
@@ -197,6 +199,7 @@ protected void callPostDetails(String postid, String status) {
  
 		c = db.getExploreListPost(userid);
         
+		 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) 
 		getActivity().startManagingCursor(c);
   
  
@@ -286,6 +289,11 @@ public void onResume() {
     
    
 }
-  
+  @Override
+public void onDestroyView() {
+	// TODO Auto-generated method stub
+	super.onDestroyView();
+	db.close();
+}
  
 }

@@ -26,15 +26,15 @@ public class HttpClient {
         private String delimiter = "--";
     private String boundary =  "SwA"+Long.toString(System.currentTimeMillis())+"SwA";
 	public SharedPreferences codePixPref;
+	int type;
 
-        public HttpClient(String url) {                
-                this.url = url;
-        }
+   
         
-        public HttpClient(String url2, Context applicationContext) {
+        public HttpClient(String url2, Context applicationContext,int type) {
 			// TODO Auto-generated constructor stub
         	 this.url = url2;
         	 context=applicationContext;
+        	 this.type=type;
         	 codePixPref = context.getApplicationContext().getSharedPreferences(
                      "CodePixPref", 0);
 		}
@@ -153,7 +153,8 @@ public class HttpClient {
 							 
 	                        status=jObj.getString("status");
 	                       // message=jObj.get();
-	                        
+	                        if(type==2)
+	                        {
 	                          if(jObj.getString("first_name")!=null)
 	                        	  codePixPref.edit().putString("first_name", jObj.getString("first_name")).commit();
 	                          if(jObj.getString("last_name")!=null)
@@ -168,7 +169,7 @@ public class HttpClient {
 	                        	  message= jObj.getString("Birth_date");
 	                          if(jObj.getString("image_url")!=null)
 	                        	  message= jObj.getString("image_url");
-	                          
+	                        } 
 	                          if(jObj.getJSONObject("userinfo") != null)
 	  	                        {
 	  	                        	JSONObject userInfo=jObj.getJSONObject("userinfo");

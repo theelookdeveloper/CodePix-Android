@@ -38,7 +38,6 @@ public class ImageGestureActivity extends Activity {
 	int gestureType = 0;
 	public static String gestureCordinates=null;
 	boolean effectsAdded = false;
-	private Button btnBack;
 	private Button btnCancel;
 	private Button btnGesture;
 	public static boolean gesture=false;
@@ -240,6 +239,7 @@ public class ImageGestureActivity extends Activity {
 					         intent.putExtra("gestureType", gestureType);
 			         
 			               startActivity(intent);
+			               finish();
 						}
 						else
 						{
@@ -253,7 +253,7 @@ public class ImageGestureActivity extends Activity {
 				}
 			});
 		
-		 btnBack=(Button)findViewById(R.id.btnBack);
+		/* btnBack=(Button)findViewById(R.id.btnBack);
 		btnBack.setOnClickListener(new Button.OnClickListener() {
 				
 				@Override
@@ -261,8 +261,8 @@ public class ImageGestureActivity extends Activity {
 					// TODO Auto-generated method stub
 					onBackPressed();
 				}
-			});
-		btnCancel=(Button)findViewById(R.id.btnCancel);
+			});*/
+		/*btnCancel=(Button)findViewById(R.id.btnCancel);
 		btnCancel.setOnClickListener(new Button.OnClickListener() {
 			
 			@Override
@@ -270,7 +270,7 @@ public class ImageGestureActivity extends Activity {
 				// TODO Auto-generated method stub
 				onCancelPressed();
 			}
-		});
+		});*/
 		
 		btnGesture=(Button)findViewById(R.id.btnGesture);
 		btnGesture.setOnClickListener(new Button.OnClickListener() {

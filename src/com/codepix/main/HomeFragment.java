@@ -130,6 +130,7 @@ BroadcastReceiver postsReceiver = new BroadcastReceiver() {
          }
       }
   };
+private DBHelper db;
 
   protected void callPostDetails(String postid, String status) {
 		// TODO Auto-generated method stub
@@ -184,7 +185,7 @@ BroadcastReceiver postsReceiver = new BroadcastReceiver() {
         View V = inflater.inflate(R.layout.fragment_home, container, false);
         
         postlist=new ArrayList<HashMap<String, String>>();
-        DBHelper db = new DBHelper(getActivity());
+        db = new DBHelper(getActivity());
         
 		db.open();
 		codePixPref=getActivity().getSharedPreferences("CodePixPref", 0);
@@ -193,6 +194,7 @@ BroadcastReceiver postsReceiver = new BroadcastReceiver() {
  
 		c = db.getListPost(userid);
  
+	if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) 
 		getActivity().startManagingCursor(c);
   
  
@@ -271,6 +273,13 @@ public void onPause() {
 	  getActivity().unregisterReceiver(postsReceiver);
   }
   
+  
+  @Override
+public void onDestroyView() {
+	// TODO Auto-generated method stub
+	super.onDestroyView();
+	db.close();
+}
   @Override
 public void onResume() {
 	// TODO Auto-generated method stub
